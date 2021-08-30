@@ -153,7 +153,7 @@ ImuFilterMadgwickRos::ImuFilterMadgwickRos(const rclcpp::NodeOptions &options)
       std::bind(&ImuFilterMadgwickRos::reconfigCallback, this, _1));
 
   // **** register publishers
-  imu_publisher_ = create_publisher<sensor_msgs::msg::Imu>("imu/data", 5);
+  imu_publisher_ = create_publisher<sensor_msgs::msg::Imu>("xsens/imu/filtered", 5);
   if (publish_debug_topics_) {
     rpy_filtered_debug_publisher_ =
         create_publisher<geometry_msgs::msg::Vector3Stamped>("imu/rpy/filtered", 5);
@@ -166,7 +166,7 @@ ImuFilterMadgwickRos::ImuFilterMadgwickRos(const rclcpp::NodeOptions &options)
   // Synchronize inputs. Topic subscriptions happen on demand in the connection callback.
   const int queue_size = 5;
   rmw_qos_profile_t qos = rmw_qos_profile_sensor_data;
-  imu_subscriber_.reset(new ImuSubscriber(this, "imu/data_raw", qos));
+  imu_subscriber_.reset(new ImuSubscriber(this, "xsens/imu", qos));
 
   if (use_mag_)
   {
